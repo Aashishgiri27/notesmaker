@@ -1,0 +1,92 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    background-color: #212121;
+  }
+h1{
+    text-align: center;
+    color: #fff;
+  }
+
+ .mainbox2{
+    margin: 25px auto;
+    display: flex;
+    flex-wrap: flex;
+    flex-direction: row;
+    justify-content: center;
+    /* gap: 25px; */
+ } 
+.Card2 {
+    width:70vw;
+    height: 80vh;
+    background: linear-gradient(to right,rgb(137, 104, 255),rgb(175, 152, 255));
+
+    border: none;
+    border-radius: 10px;
+    padding: 20px;
+    /* position: relative; */
+    /* overflow: hidden; */
+  }
+  
+
+  
+  .Heading2 {
+    text-align: center;
+    font-size: 30px;
+    font-weight: 400;
+    font-family:'Courier New', Courier, monospace;
+    color: rgb(0, 0, 0);
+    background-color: transparent;
+    z-index: 2;
+  }
+
+  
+  .accept2 {
+    width: 68vw;
+    height: 65vh;
+    /* margin: 20px 20px; */
+    background-color: #7b57ff;
+    border: none;
+    font-family:'Courier New', Courier, monospace;
+    padding: 10px ;
+    border-radius: 10px;
+    color: rgb(241, 241, 241);
+    font-weight: 600;
+}
+  
+  .accept2 a{
+    text-decoration: none;
+    background-color: transparent;
+    color: #fff;
+  }
+  .date{
+    background-color: transparent;
+    
+  }
+  .features{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    background-color: transparent;
+    color: #3b3939;
+    font-size: 20px;
+  }
+  .deleteandedit{
+    width: 120px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: transparent;
+    padding-right: 10px;
+  }
+  .deleteandedit a {
+    background-color: transparent;
+
+  }
+  .deleteandedit a img{
+    background-color: transparent;
+
+  }

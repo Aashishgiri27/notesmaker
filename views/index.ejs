@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gautam</title>
+
+    <link rel="stylesheet" href="/stylesheet/index.css" />
+  </head>
+  <body>
+   
+    
+   <div>
+    <img src="/images/userprofilepic.png" alt="" height="100px" width="100px">
+    <span><h1>Create Notes</h1>
+      <!-- <h3><%= user.username%></h3> -->
+    </span>
+   </div>
+    <div class="form-container">
+      <form class="form" method="post" action="/create">
+        <div class="form-group">
+          <label for="email">Enter File Name</label>
+          <input type="text" name="name" required="" />
+        </div>
+        <div class="form-group">
+          <label for="textarea">Write Content</label>
+          <textarea name="textarea" required=""></textarea>
+        </div>
+        <input class="form-submit-btn" type="submit" value="Create Notes">
+      </form>
+    </div>
+
+    <div class="mainbox">
+      <% if (user.file==0) { %>
+       <h3>No note present...</h3>
+      <% }else{%>
+        <% user.file.reverse().forEach(data => { %>
+          <div class="Card">
+              <div class="Heading"><%= data.name %>.txt</div>  
+              <button class="acceptButton"><a href="/read/<%= data._id%>">Read More...</a></button>
+              <div class="date">  <%= new Date(data.date).toLocaleString('en-US', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric', 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            }) %></div>
+          </div>
+      <% }) %>
+        <%} %>
+    </div>
+   
+  </body>
+</html>

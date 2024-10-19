@@ -4,6 +4,25 @@
     padding: 0px;
     background-color: #212121;
 }
+table{
+  height: 100px;
+  width: 98vw;
+/* background-color: #40c9ff; */
+
+}
+span p{
+  font-size: 20px;
+  margin-top: 5px;
+  color: white;
+  /* padding-bottom: 10px; */
+}
+img{
+  border-radius: 20px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
+}
 .form-container {
     margin: 20px auto;
     width: 70%;

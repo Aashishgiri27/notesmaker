@@ -9,13 +9,14 @@
   </head>
   <body>
    
-    
-   <div>
-    <img src="/images/userprofilepic.png" alt="" height="100px" width="100px">
-    <span><h1>Create Notes</h1>
-      <!-- <h3><%= user.username%></h3> -->
-    </span>
-   </div>
+    <table>
+      
+        <th><h1>Create Notes</h1></th>
+        <th><img src="/images/userprofilepic.png" alt="" height="60px" width="60px" >
+        <span><p><%= user.username%></p></span></th>
+      
+    </table>
+  
     <div class="form-container">
       <form class="form" method="post" action="/create">
         <div class="form-group">

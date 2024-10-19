@@ -4,7 +4,7 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-// ejs setup
+// saurabh sharma;
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
 // for form handling

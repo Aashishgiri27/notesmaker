@@ -8,12 +8,14 @@
     <link rel="stylesheet" href="/stylesheet/index.css" />
   </head>
   <body>
-   
+   <div class="container">
     <table>
-      
-        <th><h1>Create Notes</h1></th>
-        <th><img src="/images/userprofilepic.png" alt="" height="60px" width="60px" >
-        <span><p><%= user.username%></p></span></th>
+        
+        <th><h1>Create Notes</h1></th>  
+        <th><a href="/upload"><img src="/images/uploads/<%= user?.profilepic %>" alt="" height="60px" width="60px" ></a>
+        <span><p><%= user?.username%></p></span>
+        <button class="logout"><a href="/logout">LogOut</a></button></th>
+        
       
     </table>
   
@@ -33,7 +35,7 @@
 
     <div class="mainbox">
       <% if (user.file==0) { %>
-       <h3>No note present...</h3>
+       <h2 class="notes">No note present...</h2>
       <% }else{%>
         <% user.file.reverse().forEach(data => { %>
           <div class="Card">
@@ -50,6 +52,6 @@
       <% }) %>
         <%} %>
     </div>
-   
+  </div>
   </body>
 </html>

@@ -8,27 +8,37 @@
     <link rel="stylesheet" href="/stylesheet/read.css" />
   </head>
   <body>
-    <h1>Notes</h1>
-    <div class="mainbox2">
-            <div class="Card2">
-                <div class="Heading2"><%= showdata.name %>.txt</div>  
-                <div class="accept2"><%= showdata.data%></div>
-                <div class="features">
-                  <div class="date">  <%= new Date(showdata.date).toLocaleString('en-US', { 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric', 
-                    hour: '2-digit', 
-                    minute: '2-digit' 
-                }) %></div>
-                  <div class="deleteandedit">
-                    <a href="/edit/<%= showdata._id %>"><img src="/images/pen.png" alt="Delete" height="50px" width="50px"></a>
-                    <a href="/delete/<%= showdata._id%>">  <img src="/images/trash.png" alt="Edit" height="50px" width="50px"></a>
-                  
-                  </div>
-                </div>
+    <div class="container">
+      <h1>Notes</h1>
+      <div class="mainbox2">
+        <div class="Card2">
+          <div class="Heading2"><%= showdata.name %>.txt</div>
+          <div class="accept2"><%= showdata.data%></div>
+          <div class="features">
+            <div class="date">
+              <%= new Date(showdata.date).toLocaleString('en-US', { year:
+              'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute:
+              '2-digit' }) %>
             </div>
-        
+            <div class="deleteandedit">
+              <a href="/edit/<%= showdata._id %>"
+                ><img
+                  src="/images/pen.png"
+                  alt="Delete"
+                  height="50px"
+                  width="50px"
+              /></a>
+              <a href="/delete/<%= showdata._id%>">
+                <img
+                  src="/images/trash.png"
+                  alt="Edit"
+                  height="50px"
+                  width="50px"
+              /></a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </body>
 </html>

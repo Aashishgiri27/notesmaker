@@ -1,10 +1,31 @@
 *{
     margin: 0px;
     padding: 0px;
-    background-color: #212121;
+    /* background-color: #212121; */
+}
+.container {
+  width: 100%;
+  height: 750px;
+  background-color: #111111;
+  background-image: linear-gradient(
+    32deg,
+    rgba(8, 8, 8, 0.74) 30px,
+    transparent
+  );
+  background-size: 60px 60px;
+  background-position: -5px -5px;
+}
+.upload{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  /* align-items: center;
+   
+  */
+  align-content: center;
 }
 .form-container {
-    margin: 100px auto;
+    margin: 120px auto;
     width: 320px;
     border-radius: 0.75rem;
     background-color: rgba(17, 24, 39, 1);
@@ -139,4 +160,14 @@
     background: transparent;
   }
   
-  
+  .errormess{
+    color: red;
+    background-color: transparent;
+    padding-top: 10px;
+    text-align: center;
+  }
+ 
+.signup a{
+  color: rgb(31, 77, 192);
+  text-decoration: none;
+}

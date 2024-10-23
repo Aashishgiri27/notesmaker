@@ -11,13 +11,60 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-
+const multer=require("multer")
+const crypto = require('crypto');
 const datamodels = require("./models/datamodel");
-const usermodels = require("./models/usermodel");
+
 const usermodel = require("./models/usermodel");
 
+
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './public/images/uploads')
+  },
+  filename: function (req, file, cb) {
+    crypto.randomBytes(12,function(err,bytes){
+      const fn=bytes.toString("hex")+path.extname(file.originalname)
+      cb(null, fn)
+    })
+    
+  }
+})
+
+const upload = multer({ storage: storage })
+
+app.get("/upload",(req,res)=>{
+  res.render("imageupload",{message:""})
+})
+
+app.post("/upload",checklogin,upload.single('image'),async (req,res)=>{
+  // console.log(req.file)
+  try{
+    // console.log(req.user)
+    const user=await usermodel.findOne({email: req.body.email});
+    if(req.user.email===user.email){
+      user.profilepic=req.file.filename;
+      // console.log(user.profilepic)
+      await user.save()
+      res.redirect("/view")
+    }
+    
+   
+  }catch(error){
+    res.render("imageupload",{message:"Invaild Email"});
+  }
+
+})   
+
+
+
+
+
+
+
 app.get("/", function (req, res) {
-  res.render("login");
+  res.render("login",{ message: "" });
 });
 
 app.get("/signup", function (req, res) {
@@ -29,7 +76,7 @@ app.post("/signup", async function (req, res) {
 
   bcrypt.genSalt(10, (err, salt) => {
     bcrypt.hash(password, salt, async (err, hash) => {
-      let user = await usermodels.create({
+      let user = await usermodel.create({
         username: username,
         email: email,
         password: hash,
@@ -46,20 +93,30 @@ app.post("/signup", async function (req, res) {
 });
 
 app.post("/login", async function (req, res) {
-  let user = await usermodels.findOne({ email: req.body.email });
-  if (!user) res.send("something is wrong");
-  bcrypt.compare(req?.body?.password, user?.password, (err, result) => {
-    if (result) {
-      let token = jwt.sign({ email: user.email }, "notepad");
-      res.cookie("token", token);
-      res.redirect("/view");
-    } else {
-      res.redirect("/signup");
+  try {
+    let user = await usermodel.findOne({ email: req.body.email });
+    if (!user) {
+      return res.render("login", { message: "Email and Password do not match" });
     }
-  });
+
+    bcrypt.compare(req.body.password, user.password, (err, result) => {
+
+      if (result) {
+        let token = jwt.sign({ email: user.email }, "notepad");
+        res.cookie("token", token);
+        res.redirect("/view");
+      } else {
+        return res.render("login", { message: "Incorrect password" });
+      }
+    });
+  } catch (error) {
+    res.status(500).send({ message: "Server error" });
+  }
 });
 
-app.get("/logout", function (req, res) {
+
+app.get("/logout", checklogin,function (req, res) {
+
   res.cookie("token", "");
   res.redirect("/");
 });
@@ -71,6 +128,7 @@ function checklogin(req, res, next) {
   } else {
     let data = jwt.verify(req.cookies.token, "notepad");
     req.user = data;
+    console.log(data)
     next();
   }
 }

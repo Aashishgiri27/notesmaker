@@ -1,26 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="/stylesheet/index.css" />
-</head>
-<body>
-    <h1>Update Notes</h1>
-
-    <div class="form-container">
-      <form class="form" method="post" action="/update/<%=editdata._id  %>">
-        <div class="form-group">
-          <label for="email">Enter File Name</label>
-          <input type="text" name="name" required="" value="<%=editdata.name  %>" />
-        </div>
-        <div class="form-group">
-          <label for="textarea">Write Content</label>
-          <textarea name="textarea" required="" ><%= editdata.data  %></textarea>
-        </div>
-        <input class="form-submit-btn-update" type="submit" value="Update">
-      </form>
+    <link rel="stylesheet" href="/stylesheet/update.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Update Notes</h1>
+      <div class="form-container">
+        <form class="form" method="post" action="/update/<%=editdata._id  %>">
+          <div class="form-group">
+            <label for="email">Enter File Name</label>
+            <input
+              type="text"
+              name="name"
+              required=""
+              value="<%=editdata.name  %>"
+            />
+          </div>
+          <div class="form-group">
+            <label for="textarea">Write Content</label>
+            <textarea name="textarea" required="">
+<%= editdata.data  %></textarea
+            >
+          </div>
+          <input class="form-submit-btn-update" type="submit" value="Update" />
+        </form>
+      </div>
     </div>
-</body>
+  </body>
 </html>

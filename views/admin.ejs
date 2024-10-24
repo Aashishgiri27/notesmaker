@@ -1,11 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-    
-</body>
+    <link rel="stylesheet" href="/stylesheet/admin.css" />
+  </head>
+  <body>
+    <div class="container">
+        <h1>Admin Page</h1>
+      <div class="upload">
+        <table class="styled-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Date</th>
+              <th>view</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% data.map(e => { %>
+                <tr class="active-row">
+                    <td><img src="/images/uploads/<%= e.profilepic %>" alt="" height="50px" width="50px"></td>
+                    <td><%= e.username %></td>
+                    <td><%= e.email %></td>
+                    <td><%= new Date(e.createdAt).toLocaleString('en-US', { 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric', 
+                        hour: '2-digit', 
+                        minute: '2-digit' 
+                    }) %></td>
+                    <td><a href="/data/<%= e._id %>" >More View</a></td>
+                  </tr>
+            <% }) %>
+           
+            <!-- <tr class="active-row">
+              <td></td>
+              <td>aashish</td>
+              <td>aashishgiri666@gmial.com</td>
+              <td>27-10-23</td>
+              <td><a href="#">link</a></td>
+              <td></td>
+            </tr> -->
+            <!-- and so on... -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
 </html>

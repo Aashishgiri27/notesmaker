@@ -11,60 +11,70 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-const multer=require("multer")
-const crypto = require('crypto');
+const multer = require("multer");
+const crypto = require("crypto");
 const datamodels = require("./models/datamodel");
-
 const usermodel = require("./models/usermodel");
 
 
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './public/images/uploads')
+    cb(null, "./public/images/uploads");
   },
   filename: function (req, file, cb) {
-    crypto.randomBytes(12,function(err,bytes){
-      const fn=bytes.toString("hex")+path.extname(file.originalname)
-      cb(null, fn)
-    })
-    
-  }
+    crypto.randomBytes(12, function (err, bytes) {
+      const fn = bytes.toString("hex") + path.extname(file.originalname);
+      cb(null, fn);
+    });
+  },
+});
+
+const upload = multer({ storage: storage });
+
+
+app.get("/admin", async (req, res) => {
+  const user=await usermodel.find({})
+  // console.log(user)
+   res.render("admin",{data:user})
+
+});
+
+app.get("/data/:id",async(req,res)=>{
+  
+  const userdata= await usermodel.findOne({_id:req.params.id})
+  // console.log(userdata)
+  const filedata=await datamodels.find({user:req.params.id})
+  // console.log(filedata)
+  res.render("userdetail",{user:userdata,data:filedata});
 })
 
-const upload = multer({ storage: storage })
 
-app.get("/upload",(req,res)=>{
-  res.render("imageupload",{message:""})
-})
 
-app.post("/upload",checklogin,upload.single('image'),async (req,res)=>{
+
+
+app.get("/upload", (req, res) => {
+  res.render("imageupload", { message: "" });
+});
+
+app.post("/upload", checklogin, upload.single("image"), async (req, res) => {
   // console.log(req.file)
-  try{
+  try {
     // console.log(req.user)
-    const user=await usermodel.findOne({email: req.body.email});
-    if(req.user.email===user.email){
-      user.profilepic=req.file.filename;
+    const user = await usermodel.findOne({ email: req.body.email });
+    if (req.user.email === user.email) {
+      user.profilepic = req.file.filename;
       // console.log(user.profilepic)
-      await user.save()
-      res.redirect("/view")
+      await user.save();
+      res.redirect("/view");
     }
-    
-   
-  }catch(error){
-    res.render("imageupload",{message:"Invaild Email"});
+  } catch (error) {
+    res.render("imageupload", { message: "Invaild Email" });
   }
-
-})   
-
-
-
-
-
-
+});
 
 app.get("/", function (req, res) {
-  res.render("login",{ message: "" });
+  res.render("login", { message: "" });
 });
 
 app.get("/signup", function (req, res) {
@@ -96,11 +106,12 @@ app.post("/login", async function (req, res) {
   try {
     let user = await usermodel.findOne({ email: req.body.email });
     if (!user) {
-      return res.render("login", { message: "Email and Password do not match" });
+      return res.render("login", {
+        message: "Email and Password do not match",
+      });
     }
 
     bcrypt.compare(req.body.password, user.password, (err, result) => {
-
       if (result) {
         let token = jwt.sign({ email: user.email }, "notepad");
         res.cookie("token", token);
@@ -114,9 +125,7 @@ app.post("/login", async function (req, res) {
   }
 });
 
-
-app.get("/logout", checklogin,function (req, res) {
-
+app.get("/logout", checklogin, function (req, res) {
   res.cookie("token", "");
   res.redirect("/");
 });
@@ -128,10 +137,17 @@ function checklogin(req, res, next) {
   } else {
     let data = jwt.verify(req.cookies.token, "notepad");
     req.user = data;
-    console.log(data)
+    // console.log(data);
     next();
   }
 }
+
+
+
+
+
+
+
 
 app.get("/view", checklogin, async function (req, res) {
   let user = await usermodel
@@ -156,25 +172,25 @@ app.post("/create", checklogin, async function (req, res) {
   res.redirect("/view");
 });
 
-app.get("/read/:id", checklogin,async function (req, res) {
+app.get("/read/:id", checklogin, async function (req, res) {
   let showdata = await datamodels.findOne({ _id: req.params.id });
   // console.log(showdata);
   res.render("read", { showdata: showdata });
 });
 
-app.get("/delete/:id",checklogin, async function (req, res) {
+app.get("/delete/:id", checklogin, async function (req, res) {
   // let deletedata= await datamodels.findOne({_id:req.params.id});
   await datamodels.findOneAndDelete({ _id: req.params.id });
   res.redirect("/view");
 });
 
-app.get("/edit/:id", checklogin,async function (req, res) {
+app.get("/edit/:id", checklogin, async function (req, res) {
   let editdata = await datamodels.findOne({ _id: req.params.id });
   // console.log(deletedata)
   res.render("update", { editdata: editdata });
 });
 
-app.post("/update/:id",checklogin, async function (req, res) {
+app.post("/update/:id", checklogin, async function (req, res) {
   let { name, textarea } = req.body;
   let editdata = await datamodels.findOneAndUpdate(
     { _id: req.params.id },

@@ -14,6 +14,6 @@ const userschema=mongoose.Schema({
             ref:'note'
         }
     ]
-})
+},{timestamps:true})
 
 module.exports=mongoose.model("user",userschema)

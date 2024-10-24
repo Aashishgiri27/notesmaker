@@ -1,0 +1,131 @@
+
+*{
+    margin: 0px;
+    padding: 0px;
+    
+    /* background-color: #212121; */
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    background-image: radial-gradient(rgba(12, 12, 12, 0.171) 2px, transparent 0);
+    background-size: 30px 30px;
+    background-position: -5px -5px;
+  }
+  .upload{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+     
+   
+    align-content: center;
+  }
+.card {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: row;
+    width: 70vw;
+    height: 50vh;
+    /* max-height: 330px; */
+    background-color: var(--white);
+    border-radius: 10px;
+    box-shadow: 0px 10px 12px rgba(0, 0, 0, 0.08),
+      -4px -4px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: all 0.3s;
+    cursor: pointer;
+    box-sizing: border-box;
+    padding: 10px;
+  }
+  
+  .card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0px 20px 20px rgba(0, 0, 0, 0.1),
+      -4px -4px 12px rgba(0, 0, 0, 0.08);
+  }
+  
+  .card-image-container {
+    width: 50%;
+    height:90%;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    background-color: rgb(165, 165, 165);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .image-icon {
+    font-size: 40px;
+  }
+  
+  .card-title {
+    padding-bottom: 50px;
+    text-align: center;
+    /* font-size: 17px; */
+    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+      "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+    font-weight: 600;
+    color: #1797b8;
+   
+  }
+  .card-container{
+     padding: 10px 30px 30px 30px ;
+     width: 50%;
+  }
+  .card-des span{
+    font-size: 20px;
+    font-weight: 700;
+    padding-bottom: 20px;
+
+  }
+  .card-des {
+  
+    padding-bottom: 20px;
+
+  }
+
+  .styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 800px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.styled-table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+}
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+  
+.styled-table tbody tr.active-row {
+    font-weight: bold;
+    color: #009879;
+}
+h1{
+    text-align: center;
+}
+  

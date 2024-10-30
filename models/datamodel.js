@@ -7,10 +7,7 @@ mongoose.connect("mongodb://localhost:27017/notepad")
     },
     name:String,
     data:String,
-    date:{
-      type: Date,
-      default: Date.now()
-    }
- })
+    
+ },{timestamps:true})
   
 module.exports= mongoose.model("note",datamodels)

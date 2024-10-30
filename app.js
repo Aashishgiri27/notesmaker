@@ -53,8 +53,9 @@ app.get("/data/:id",async(req,res)=>{
 
 
 
-app.get("/upload", (req, res) => {
-  res.render("imageupload", { message: "" });
+app.get("/upload/:id", async(req, res) => {
+  const user= await usermodel.findOne({_id: req.params.id})
+  res.render("imageupload", { message: "",userdata: user });
 });
 
 app.post("/upload", checklogin, upload.single("image"), async (req, res) => {
@@ -69,6 +70,7 @@ app.post("/upload", checklogin, upload.single("image"), async (req, res) => {
       res.redirect("/view");
     }
   } catch (error) {
+    console.log(user)
     res.render("imageupload", { message: "Invaild Email" });
   }
 });
@@ -153,10 +155,10 @@ app.get("/view", checklogin, async function (req, res) {
   let user = await usermodel
     .findOne({ email: req.user.email })
     .populate("file");
-
+    const message = req.query.message || "";
   // console.log(user);
 
-  res.render("index", { user: user });
+  res.render("index", { user: user ,message});
 });
 
 app.post("/create", checklogin, async function (req, res) {
@@ -181,7 +183,7 @@ app.get("/read/:id", checklogin, async function (req, res) {
 app.get("/delete/:id", checklogin, async function (req, res) {
   // let deletedata= await datamodels.findOne({_id:req.params.id});
   await datamodels.findOneAndDelete({ _id: req.params.id });
-  res.redirect("/view");
+  res.redirect("/view?message=Notes Deleted");
 });
 
 app.get("/edit/:id", checklogin, async function (req, res) {

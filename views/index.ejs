@@ -12,12 +12,16 @@
     <table>
         
         <th><h1>Create Notes</h1></th>  
-        <th><a href="/upload"><img src="/images/uploads/<%= user?.profilepic %>" alt="" height="60px" width="60px" ></a>
+        <% if (message) { %>
+          <div class="errormess"><%= message %> X</div>
+          <% } %>
+        <th><a href="/upload/<%= user._id %>"><img src="/images/uploads/<%= user?.profilepic %>" alt="" height="70px" width="60px" ></a>
         <span><p><%= user?.username%></p></span>
         <button class="logout"><a href="/logout">LogOut</a></button></th>
         
       
     </table>
+  
   
     <div class="form-container">
       <form class="form" method="post" action="/create">
@@ -41,7 +45,7 @@
           <div class="Card">
               <div class="Heading"><%= data.name %>.txt</div>  
               <button class="acceptButton"><a href="/read/<%= data._id%>">Read More...</a></button>
-              <div class="date">  <%= new Date(data.date).toLocaleString('en-US', { 
+              <div class="date">  <%= new Date(data.updatedAt).toLocaleString('en-US', { 
                 year: 'numeric', 
                 month: 'long', 
                 day: 'numeric', 

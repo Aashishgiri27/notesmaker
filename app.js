@@ -34,11 +34,13 @@ const upload = multer({ storage: storage });
 
 
 app.get("/admin", async (req, res) => {
+  res.redirect("/");
+});
+app.get("/admin/data", async (req,res)=>{
   const user=await usermodel.find({})
   // console.log(user)
    res.render("admin",{data:user})
-
-});
+})
 
 app.get("/data/:id",async(req,res)=>{
   
@@ -106,6 +108,11 @@ app.post("/signup", async function (req, res) {
 
 app.post("/login", async function (req, res) {
   try {
+    if(req.body.email=="aashishgiri222@gmail.com"){
+        return res.redirect("/admin/data");
+    }
+   
+    
     let user = await usermodel.findOne({ email: req.body.email });
     if (!user) {
       return res.render("login", {

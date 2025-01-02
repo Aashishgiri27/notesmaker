@@ -6,13 +6,12 @@
 }
 
 .container {
-  width: 100%;
   background-color: whitesmoke;
 
 }
 table {
   height: 80px;
-  width: 100vw;
+  width: 100%;
   background-color: rgb(98, 141, 234);
 }
 span p {
@@ -31,6 +30,7 @@ img {
 .form-container {
   margin: 20px auto;
   width: 70%;
+  overflow-y:unset;
   /* background: linear-gradient(#212121, #212121) padding-box; */
   background-color: rgb(255, 255, 255);
   
@@ -118,7 +118,7 @@ img {
   font-weight: 600;
   width: 20%;
   background: rgb(66, 119, 216);
-  border: 1px solid #414141;
+  border: none;
   padding: 12px 16px;
   font-size: inherit;
   gap: 8px;

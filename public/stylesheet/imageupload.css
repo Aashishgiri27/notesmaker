@@ -10,60 +10,14 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    /* align-items: center;
-     
-    */
     align-content: center;
+
 }
 .container {
   width: 100%;
-  height: 800px;
-  background: radial-gradient(
-        circle farthest-side at 0% 50%,
-        #282828 23.5%,
-        rgba(255, 170, 0, 0) 0
-      )
-      21px 30px,
-    radial-gradient(
-        circle farthest-side at 0% 50%,
-        #2c3539 24%,
-        rgba(240, 166, 17, 0) 0
-      )
-      19px 30px,
-    linear-gradient(
-        #282828 14%,
-        rgba(240, 166, 17, 0) 0,
-        rgba(240, 166, 17, 0) 85%,
-        #282828 0
-      )
-      0 0,
-    linear-gradient(
-        150deg,
-        #282828 24%,
-        #2c3539 0,
-        #2c3539 26%,
-        rgba(240, 166, 17, 0) 0,
-        rgba(240, 166, 17, 0) 74%,
-        #2c3539 0,
-        #2c3539 76%,
-        #282828 0
-      )
-      0 0,
-    linear-gradient(
-        30deg,
-        #282828 24%,
-        #2c3539 0,
-        #2c3539 26%,
-        rgba(240, 166, 17, 0) 0,
-        rgba(240, 166, 17, 0) 74%,
-        #2c3539 0,
-        #2c3539 76%,
-        #282828 0
-      )
-      0 0,
-    linear-gradient(90deg, #2c3539 2%, #282828 0, #282828 98%, #2c3539 0%) 0 0
-      #282828;
-  background-size: 40px 60px;
+  height: 100vh;
+  background-color: whitesmoke;
+ 
 }
 .custum-file-upload {
     height: 200px;
@@ -76,7 +30,7 @@
     align-items: center;
     justify-content: center;
     border: 2px dashed #e8e8e8;
-    background-color: #212121;
+    /* background-color: #212121; */
     padding: 1.5rem;
     border-radius: 10px;
     box-shadow: 0px 48px 35px -48px #e8e8e8;
@@ -112,25 +66,20 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    margin-top: 120px;
+    margin-top: 100px;
     padding-left: 2em;
     padding-right: 2em;
     padding-bottom: 0.4em;
-    background-color: #171717;
+    padding-top: 2em;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    background-color: white;
     border-radius: 25px;
     transition: .4s ease-in-out;
   }
   
   .form:hover {
     transform: scale(1.05);
-    border: 1px solid black;
-  }
-  
-  #heading {
-    text-align: center;
-    margin: 10px;
-    color: rgb(255, 255, 255);
-    font-size: 25px;
+    /* border: 1px solid black; */
   }
   
   .field {
@@ -189,3 +138,12 @@
     padding-top: 10px;
     text-align: center;
   }
+  h1{
+      height: 80px;
+    padding-top: 30px;
+      text-align: center;
+      align-items: center;
+      color: #fff;
+    background-color: rgb(98, 141, 234);
+      
+    }

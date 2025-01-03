@@ -1,23 +1,30 @@
 const express = require("express");
 const app = express();
+const dotenv = require("dotenv");
+dotenv.config();
 const path = require("path");
+
+//authentication
 const cookieParser = require("cookie-parser");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-// saurabh sharma;
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
+
 // for form handling
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+//for image upolad
 const multer = require("multer");
 const crypto = require("crypto");
+
+//data models
 const datamodels = require("./models/datamodel");
 const usermodel = require("./models/usermodel");
 
-
-
+//image upload
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "./public/images/uploads");
@@ -32,62 +39,67 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-
+// ADMIN PAGE
 app.get("/admin", async (req, res) => {
   res.redirect("/");
 });
-app.get("/admin/data", async (req,res)=>{
-  const user=await usermodel.find({})
-  // console.log(user)
-   res.render("admin",{data:user})
-})
+app.get("/admin/data", async (req, res) => {
+  const user = await usermodel.find({});
+  res.render("admin", { data: user });
+});
+app.get("/data/:id", async (req, res) => {
+  const userdata = await usermodel.findOne({ _id: req.params.id });
 
-app.get("/data/:id",async(req,res)=>{
-  
-  const userdata= await usermodel.findOne({_id:req.params.id})
-  // console.log(userdata)
-  const filedata=await datamodels.find({user:req.params.id})
-  // console.log(filedata)
-  res.render("userdetail",{user:userdata,data:filedata});
-})
+  const filedata = await datamodels.find({ user: req.params.id });
 
+  res.render("userdetail", { user: userdata, data: filedata });
+});
 
+// IMAGE UPLOAD
 
-
-
-app.get("/upload/:id", async(req, res) => {
-  const user= await usermodel.findOne({_id: req.params.id})
-  res.render("imageupload", { message: "",userdata: user });
+app.get("/upload/:id", async (req, res) => {
+  const user = await usermodel.findOne({ _id: req.params.id });
+  res.render("imageupload", { message: "", userdata: user });
 });
 
 app.post("/upload", checklogin, upload.single("image"), async (req, res) => {
-  // console.log(req.file)
   try {
-    // console.log(req.user)
     const user = await usermodel.findOne({ email: req.body.email });
-    if (req.user.email === user.email) {
-      user.profilepic = req.file.filename;
-      // console.log(user.profilepic)
-      await user.save();
-      res.redirect("/view");
+
+    if (!user) {
+      return res.render("imageupload", { message: "Invalid email", userdata: req.user });
     }
+
+    // if (req.user.email !== user.email) {
+    //   return res.render("imageupload", { message: "Unauthorized action", userdata: req.user });
+    // }
+
+    if (!req.file) {
+      return res.render("imageupload", { message: "No image selected", userdata: req.user });
+    }
+
+    user.profilepic = req.file.filename;
+    await user.save();
+    res.redirect("/view");
   } catch (error) {
-    console.log(user)
-    res.render("imageupload", { message: "Invaild Email" });
+    console.error(error);
+    res.render("imageupload", { message: "Something went wrong, please try again.", userdata: req.user });
   }
 });
 
+
+// LOGIN PAGE
 app.get("/", function (req, res) {
   res.render("login", { message: "" });
 });
-
+// SIGN UP PAGE
 app.get("/signup", function (req, res) {
   res.render("signup");
 });
 
 app.post("/signup", async function (req, res) {
   const { username, email, password } = req.body;
-
+// PASSWORD HASHING
   bcrypt.genSalt(10, (err, salt) => {
     bcrypt.hash(password, salt, async (err, hash) => {
       let user = await usermodel.create({
@@ -96,9 +108,9 @@ app.post("/signup", async function (req, res) {
         password: hash,
       });
 
-      let token = jwt.sign({ email }, "notepad");
+      let token = jwt.sign({ email }, process.env.JWT_SECURE);
       res.cookie("token", token);
-      //   console.log(user)
+     
       setTimeout(() => {
         res.redirect("/view");
       }, 2000);
@@ -106,23 +118,26 @@ app.post("/signup", async function (req, res) {
   });
 });
 
+// CHECKING ADMIN PASSWORD AND EMAIL
 app.post("/login", async function (req, res) {
   try {
-    if(req.body.email=="aashishgiri222@gmail.com"){
-        return res.redirect("/admin/data");
+    if (
+      req.body.email == process.env.ADMIN_EMAIL &&
+      req.body.password == process.env.PASSWORD
+    ) {
+      return res.redirect("/admin/data");
     }
-   
-    
+
     let user = await usermodel.findOne({ email: req.body.email });
     if (!user) {
       return res.render("login", {
         message: "Email and Password do not match",
       });
     }
-
+    // FOR LOGIN CHECK PASSWORD IS CORRECT OR NOT
     bcrypt.compare(req.body.password, user.password, (err, result) => {
       if (result) {
-        let token = jwt.sign({ email: user.email }, "notepad");
+        let token = jwt.sign({ email: user.email }, process.env.JWT_SECURE);
         res.cookie("token", token);
         res.redirect("/view");
       } else {
@@ -134,6 +149,9 @@ app.post("/login", async function (req, res) {
   }
 });
 
+
+// LOGOUT
+
 app.get("/logout", checklogin, function (req, res) {
   res.cookie("token", "");
   res.redirect("/");
@@ -144,28 +162,21 @@ function checklogin(req, res, next) {
   if (req.cookies.token == "") {
     res.redirect("/signup");
   } else {
-    let data = jwt.verify(req.cookies.token, "notepad");
+    let data = jwt.verify(req.cookies.token, process.env.JWT_SECURE);
     req.user = data;
     // console.log(data);
     next();
   }
 }
 
-
-
-
-
-
-
-
 app.get("/view", checklogin, async function (req, res) {
   let user = await usermodel
     .findOne({ email: req.user.email })
     .populate("file");
-    const message = req.query.message || "";
+  const message = req.query.message || "";
   // console.log(user);
 
-  res.render("index", { user: user ,message});
+  res.render("index", { user: user, message });
 });
 
 app.post("/create", checklogin, async function (req, res) {
@@ -210,6 +221,6 @@ app.post("/update/:id", checklogin, async function (req, res) {
   res.redirect("/view");
 });
 
-app.listen(8080, function () {
+app.listen(process.env.PORT, function () {
   console.log("running");
-});
+});  

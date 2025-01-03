@@ -1,5 +1,5 @@
 const mongoose=require('mongoose')
-mongoose.connect("mongodb://localhost:27017/notepad")
+mongoose.connect(process.env.MONGOOSE_URL)
  const datamodels= mongoose.Schema({
     user:{
       type:mongoose.Schema.Types.ObjectId,
